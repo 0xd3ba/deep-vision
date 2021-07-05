@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# MacOS and Jetbrains related files
+.DS_Store
+.idea
+
 # C extensions
 *.so
 
