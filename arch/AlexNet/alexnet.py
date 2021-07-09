@@ -6,7 +6,7 @@ import torch.nn as nn
 
 class AlexNet(nn.Module):
     """
-    Module for the AlexNet model with ImageNette (320px) dataset (ImageNet is too big: ~155GB !! )
+    Module for the AlexNet model on ImageNette (320px) dataset (ImageNet is too big: ~155GB !! )
     Paper: https://papers.nips.cc/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf
 
     NOTE: - The dimensions for each image is (3, 227, 227)

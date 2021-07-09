@@ -20,10 +20,10 @@ class ImageNetteDataset(Dataset):
     the true labels
 
     Also note that each image file is of shape (3, 320, 320)
-    Since AlexNet was written for images of shape (3, 227, 227), need to rescale appropriately
+    Since VGG-16 was written for images of shape (3, 224, 224), need to rescale appropriately
     """
 
-    imagenet_dims = (227, 227)
+    imagenet_dims = (224, 224)
 
     def __init__(self, data_dir, annotation_csv, train=True):
         self.data_dir = pathlib.Path(data_dir)
