@@ -51,10 +51,7 @@ class VGG16(nn.Module):
     Module for the VGG-16 model on ImageNette (320px) dataset (ImageNet is too big: ~155GB !! )
     Paper: https://arxiv.org/abs/1409.1556
 
-    NOTE: - The dimensions for each image is (3, 227, 227)
-            The paper mentions them as (3, 224, 224) which is a mistake
-
-          - The original ImageNet dataset has 1000 classes. ImageNette-320, which is used here,
+    NOTE: - The original ImageNet dataset has 1000 classes. ImageNette-320, which is used here,
             has 10 classes. So output layer will have only 10 units, instead of 1000.
     """
 
