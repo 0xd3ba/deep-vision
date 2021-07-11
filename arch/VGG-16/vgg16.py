@@ -31,6 +31,7 @@ class ConvBlock3x3(nn.Module):
                                      padding='same')
             curr_channel = out_channels
             self.conv_layers.append(conv_layer_i)
+            self.conv_layers.append(nn.ReLU())
 
         # Finally add the max-pool layer
         pool_layer = nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2))

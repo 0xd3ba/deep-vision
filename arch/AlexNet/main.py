@@ -1,4 +1,4 @@
-# main.py -- Entry point for training/testing LeNet-5 model
+# main.py -- Entry point for training/testing AlexNet model
 
 import torch
 from torch.utils.data.dataloader import DataLoader

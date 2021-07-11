@@ -23,15 +23,21 @@ class AlexNet(nn.Module):
 
         self.conv_layers = [
             nn.Conv2d(3, 96, kernel_size=(11, 11), stride=(4, 4)),    # Output size: (96, 55, 55)
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size=(3, 3), stride=(2, 2)),          # Output size: (96, 27, 27)
+
             nn.Conv2d(96, 256, kernel_size=(5, 5), padding='same'),   # Output size: (256, 27, 27)
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size=(3, 3), stride=(2, 2)),          # Output size: (256, 13, 13)
 
             # Now comes convolutions without any max-pooling
             # The shape remains the same however
             nn.Conv2d(256, 384, kernel_size=(3, 3), padding='same'),  # Output size: (384, 13, 13)
+            nn.ReLU(),
             nn.Conv2d(384, 384, kernel_size=(3, 3), padding='same'),  # Output size: (384, 13, 13)
+            nn.ReLU(),
             nn.Conv2d(384, 256, kernel_size=(3, 3), padding='same'),  # Output size: (256, 13, 13)
+            nn.ReLU(),
 
             # The final max-pool layer
             nn.MaxPool2d(kernel_size=(3, 3), stride=(2, 2))           # Output size: (256, 6, 6)

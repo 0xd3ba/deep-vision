@@ -1,11 +1,11 @@
-# main.py -- Entry point for training/testing ZFNet model
+# main.py -- Entry point for training/testing ResNet-34 model
 
 import torch
 from torch.utils.data.dataloader import DataLoader
 
 # Custom modules -- the dataset class, model class and the training/testing functions
 from dataset.imagenette import ImageNetteDataset
-from zfnet import ZFNet
+from resnet import ResNet
 from training import train
 
 
@@ -38,6 +38,6 @@ if __name__ == '__main__':
     # Create the model and train it
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    model = ZFNet()
+    model = ResNet()
 
     train(train_loader, model, device)

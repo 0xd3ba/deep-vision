@@ -21,8 +21,10 @@ class LeNet5(nn.Module):
 
         self.conv_layers_list = [
             nn.Conv2d(in_channels=1, out_channels=6, kernel_size=(5, 5), padding='same'),   # Output: (6, 28, 28)
+            nn.Sigmoid(),
             nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2)),                                # Output: (6, 14, 14)
             nn.Conv2d(in_channels=6, out_channels=16, kernel_size=(5, 5)),                  # Output: (16, 10, 10)
+            nn.Sigmoid(),
             nn.MaxPool2d(kernel_size=(2, 2), stride=(2, 2)),                                # Output: (16, 5, 5)
         ]
 

@@ -20,7 +20,7 @@ class ImageNetteDataset(Dataset):
     the true labels
 
     Also note that each image file is of shape (3, 320, 320)
-    Since ZFNet was written for images of shape (3, 224, 224), need to rescale appropriately
+    Since ResNet-34 was written for images of shape (3, 224, 224), need to rescale appropriately
     """
 
     imagenet_dims = (224, 224)

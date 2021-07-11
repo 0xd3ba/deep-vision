@@ -1,4 +1,5 @@
 # zfnet.py -- Module containing the class for the ZFNet-16 model
+#             The model is the same as AlexNet with few differences
 
 
 import torch
@@ -28,16 +29,22 @@ class ZFNet(nn.Module):
 
         self.conv_layers = [                                                         # Input size:  (3, 224, 224)
             nn.Conv2d(3, 96, kernel_size=(7, 7), stride=(2, 2), padding=(1, 1)),     # Output size: (96, 110, 110)
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size=(3, 3), stride=(2, 2), padding=(1, 1)),         # Output size: (96, 55, 55)
+
             nn.Conv2d(96, 256, kernel_size=(5, 5), stride=(2, 2)),                   # Output size: (256, 26, 26)
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size=(3, 3), stride=(2, 2), padding=(1, 1)),         # Output size: (256, 13, 13)
 
             # Rest are similar to AlexNet
             # Now comes convolutions without any max-pooling
             # The shape remains the same however
             nn.Conv2d(256, 384, kernel_size=(3, 3), padding='same'),  # Output size: (384, 13, 13)
+            nn.ReLU(),
             nn.Conv2d(384, 384, kernel_size=(3, 3), padding='same'),  # Output size: (384, 13, 13)
+            nn.ReLU(),
             nn.Conv2d(384, 256, kernel_size=(3, 3), padding='same'),  # Output size: (256, 13, 13)
+            nn.ReLU(),
 
             # The final max-pool layer
             nn.MaxPool2d(kernel_size=(3, 3), stride=(2, 2))           # Output size: (256, 6, 6)
