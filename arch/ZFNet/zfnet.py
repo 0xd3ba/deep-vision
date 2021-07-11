@@ -1,4 +1,4 @@
-# zfnet.py -- Module containing the class for the ZFNet-16 model
+# googlenet.py -- Module containing the class for the ZFNet model
 #             The model is the same as AlexNet with few differences
 
 
