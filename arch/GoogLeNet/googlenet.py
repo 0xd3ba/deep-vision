@@ -1,4 +1,4 @@
-# googlenet.py -- Module containing the class for the GoogLeNet model
+# inception_v2.py -- Module containing the class for the GoogLeNet model
 
 
 import torch
@@ -27,8 +27,8 @@ class Inception(nn.Module):
 
         # NOTE: Need the output dimensions to match when doing max-pooling
         #       with the input dimensions. This can be achieved by adding a padding of (kernel_size // 2)
-        #       Also note that the stride must be (1, 1) for this to happen, as the maximum amount of padding
-        #       allowed is atmost half the kernel size, or else PyTorch will throw an error
+        #       Also note that the stride must be (1, 1) for this to happen, or else the output dims will be halved
+        #       if used the default stride of (2, 2)
         self.max_pool = nn.MaxPool2d(kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
 
     def forward(self, X):
@@ -65,7 +65,7 @@ class GoogLeNet(nn.Module):
         super().__init__()
 
         # NOTE: 1. The output of first convolution in the paper mentions the output to be (96, 112, 112)
-        #          This can only be achieved when the padding is set to (7, 7). Similar reasoning for any
+        #          This can only be achieved when the padding is set to (3, 3). Similar reasoning for any
         #          other layers that uses explicit padding -- Trying to match the dimensions in the paper
         #
         #       2. The paper doesn't mention about parameters related to local response normalization
