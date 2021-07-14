@@ -37,7 +37,7 @@ class XceptionExitFlow(nn.Module):
             nn.MaxPool2d(kernel_size=(3, 3), stride=(2, 2))
         )
 
-        # Input shape:  (1024, 17, 17)
+        # Input shape:  (1024, 8, 8)
         # Output shape: (2048, 1, 1)
         self.conv_blk_2 = nn.Sequential(
             DepthwiseSeparableConv(in_channels=1024, out_channels=1536, kernel_size=(3, 3)),
