@@ -3,6 +3,7 @@
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 class InceptionAsymmetric7x7(nn.Module):
@@ -38,10 +39,12 @@ class InceptionAsymmetric7x7(nn.Module):
         y_1x1 = self.conv_1x1(X)                     # Output shape: (batch, n_1x1, height, width)
 
         y_7x7 = self.conv_7x7_reduce(X)
+        y_7x7 = F.relu(y_7x7)
         y_7x7 = self.conv_7x7_p1(y_7x7)
         y_7x7 = self.conv_7x7_p2(y_7x7)              # Output shape: (batch, n_7x7, height, width)
 
         y_13x13 = self.conv_13x13_reduce(X)
+        y_13x13 = F.relu(y_7x7)
         y_13x13 = self.conv_13x13_p1(y_13x13)
         y_13x13 = self.conv_13x13_p2(y_13x13)
         y_13x13 = self.conv_13x13_p3(y_13x13)

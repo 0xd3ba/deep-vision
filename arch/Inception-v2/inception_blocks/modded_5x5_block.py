@@ -3,6 +3,7 @@
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 class InceptionModded5x5(nn.Module):
@@ -43,11 +44,12 @@ class InceptionModded5x5(nn.Module):
         """
         # It is important to note that the outputs of the inception module only differ in the channel dimension
         # Need to concatenate along the channel dimension to produce the required output
-        y_1x1 = self.conv_1x1(X)                        # Output shape: (batch, n_1x1, height, width)
-        y_3x3 = self.conv_3x3(self.conv_3x3_reduce(X))  # Output shape: (batch, n_3x3, height, width)
-        y_maxpool = self.pool_proj(self.max_pool(X))    # Output shape: (batch, pool_proj, height, width)
+        y_1x1 = self.conv_1x1(X)                                # Output shape: (batch, n_1x1, height, width)
+        y_3x3 = self.conv_3x3(F.relu(self.conv_3x3_reduce(X)))  # Output shape: (batch, n_3x3, height, width)
+        y_maxpool = self.pool_proj(self.max_pool(X))            # Output shape: (batch, pool_proj, height, width)
 
         y_5x5 = self.conv_5x5_reduce(X)                 # Output shape: (batch, n_5x5_reduce, height, width)
+        y_5x5 = F.relu(y_5x5)
         y_5x5 = self.conv_5x5_p1(y_5x5)                 # Output shape: (batch, n_5x5_reduce, height, width)
         y_5x5 = self.conv_5x5_p2(y_5x5)                 # Output shape: (batch, n_5x5, height, width)
 

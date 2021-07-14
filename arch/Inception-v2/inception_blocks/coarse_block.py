@@ -3,6 +3,7 @@
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 class InceptionCoarse(nn.Module):
@@ -38,11 +39,13 @@ class InceptionCoarse(nn.Module):
         y_1x1 = self.conv_1x1(X)
 
         y_3x1_3 = self.conv_3x1_3_reduce(X)
+        y_3x1_3 = F.relu(y_3x1_3)
         y_3x1_3 = self.conv_3x1_3(y_3x1_3)
         y_3x1_3_p1 = self.conv_3x1_3_p1(y_3x1_3)    # This is used in concatenation
         y_3x1_3_p2 = self.conv_3x1_3_p2(y_3x1_3)    # This is used in concatenation
 
         y_1x1_3 = self.conv_1x1_3_reduce(X)
+        y_1x1_3 = F.relu(y_1x1_3)
         y_1x1_3_p1 = self.conv_1x1_3_p1(y_1x1_3)    # This is used in concatenation
         y_1x1_3_p2 = self.conv_1x1_3_p2(y_1x1_3)    # This is used in concatenation
 
