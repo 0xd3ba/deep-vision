@@ -5,11 +5,17 @@
 import pathlib
 import pandas as pd
 from torch.utils.data.dataset import Dataset
+from torchvision.transforms import CenterCrop
 from torchvision.io import read_image
 
 
 class VOC2012(Dataset):
-    """ Dataset class for VOC-2012 dataset """
+    """
+    Dataset class for VOC-2012 dataset
+
+    If we have 'n' downsampling layers, then we need to ensure that the height and width of the image
+    are multiples of 2^n
+    """
 
     # There are a total of 20 classes in the actual dataset
     # (I'm not sure if background is also considered one) -- If yes, then make the classes to 21.
@@ -19,9 +25,10 @@ class VOC2012(Dataset):
     # NOTE: I have built myself a small annotation csv file for the dataset, to make things easier
     n_classes = 20
 
-    def __init__(self, data_dir, annotation_csv='annotation.csv'):
+    def __init__(self, data_dir, annotation_csv='annotation.csv', n_downsampling=5):
         self.data_dir = pathlib.Path(data_dir)
         self.annot_path = self.data_dir / annotation_csv
+        self.downsample_factor = int(2**n_downsampling)
 
         # The names of the columns of the CSV file storing the path
         # to the original image and the segmented image
@@ -47,6 +54,17 @@ class VOC2012(Dataset):
         # Load the images and normalize the training image
         orig_img_tensor = read_image(orig_img_path) / 255.0
         segmented_img_tensor = read_image(segmented_img_path)[0]  # Has only one channel, so remove it
+
+        # Resize the original image tensor to prevent encoder/decoder mismtach on every possible scenario
+        # The way to avoid dimension mismatch is to ensure that height and width are multiples of the
+        # down-sampling factor.
+        h, w = orig_img_tensor.shape[-2:]   # Last two axis represent height and width
+        h_new = self.downsample_factor * (h // self.downsample_factor)
+        w_new = self.downsample_factor * (w // self.downsample_factor)
+
+        crop_tfm = CenterCrop(size=(h_new, w_new))  # Crop from the center
+        orig_img_tensor = crop_tfm(orig_img_tensor)
+        segmented_img_tensor = crop_tfm(segmented_img_tensor)
 
         # NOTE: The segmented image has a white border, which has a value of 255
         # Remove it by replacing its value with 0. It is needed because the total classes

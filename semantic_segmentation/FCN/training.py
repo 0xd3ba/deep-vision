@@ -1,6 +1,7 @@
 # training.py -- The trainer for the model
 
 import tqdm
+import numpy as np
 import torch.nn as nn
 import torch.optim as optim
 
@@ -17,10 +18,16 @@ OPTIMIZER = optim.Adam
 
 # Number of epochs to train the model: 20
 N_EPOCHS = 20
+
+# Random seed for reproducibility
+RANDOM_SEED = 42
 ###############################################
 
 
-def train(train_loader, model, device):
+def train(dataset, model, device):
+
+    np.random.seed(RANDOM_SEED)
+
     loss_fn = LOSS_FN()
     optimizer = OPTIMIZER(lr=LEARN_RATE, params=model.parameters())
 
@@ -32,14 +39,19 @@ def train(train_loader, model, device):
     for epoch in range(N_EPOCHS):
 
         epoch_loss = 0
+        rand_indices = np.random.permutation(len(dataset))
 
-        for batch_x, batch_y in tqdm.tqdm(train_loader):
+        for i in tqdm.tqdm(range(rand_indices.shape[0])):
 
-            batch_x = batch_x.to(device)
-            batch_y = batch_y.to(device)
+            x, y = dataset[rand_indices[i]]
 
-            pred_y_scores = model(batch_x)
-            batch_loss = loss_fn(pred_y_scores, batch_y)
+            # Because we are taking items directly from the dataset class, they are
+            # not provided as a batch, i.e. there is no batch dimension. Need to add one for both
+            x = x.unsqueeze(0).to(device)
+            y = y.unsqueeze(0).to(device)
+
+            pred_y_scores = model(x)
+            batch_loss = loss_fn(pred_y_scores, y)
 
             # Calculate the gradient and back-propagate the loss
             optimizer.zero_grad()

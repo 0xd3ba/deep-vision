@@ -27,6 +27,8 @@ if __name__ == '__main__':
     # Create the model and train it
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    model = FCN()
 
-    # train(train_loader, model, device)
+    data_class = VOC2012(DATASET_DIR, ANNOTATION_CSV)
+    model = FCN(n_classes=VOC2012.n_classes)
+
+    train(data_class, model, device)
