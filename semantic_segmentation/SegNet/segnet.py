@@ -135,11 +135,11 @@ class SegNet(nn.Module):
         y_enc_5, idx_5 = self.encoder_conv_blk_5(y_enc_4)
 
         # Decoding part
-        # Each decoder block 'i' has skip connection with input of encoder block 'i' (or output of encoder block 'i-1')
-        y_dec_5 = self.decoder_conv_blk_5(y_enc_5, idx_5) + y_enc_4
-        y_dec_4 = self.decoder_conv_blk_4(y_dec_5, idx_4) + y_enc_3
-        y_dec_3 = self.decoder_conv_blk_3(y_dec_4, idx_3) + y_enc_2
-        y_dec_2 = self.decoder_conv_blk_2(y_dec_3, idx_2) + y_enc_1
+        # Update: Each decoder block 'i' has DOES NOT HAVE A skip connection with input of encoder block 'i' (or output of encoder block 'i-1')
+        y_dec_5 = self.decoder_conv_blk_5(y_enc_5, idx_5)
+        y_dec_4 = self.decoder_conv_blk_4(y_dec_5, idx_4)
+        y_dec_3 = self.decoder_conv_blk_3(y_dec_4, idx_3)
+        y_dec_2 = self.decoder_conv_blk_2(y_dec_3, idx_2)
         y_dec_1 = self.decoder_conv_blk_1(y_dec_2, idx_1)
 
         # Softmax layer is not required because nn.Softmax expects raw un-normalized scores
