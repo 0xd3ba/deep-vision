@@ -45,7 +45,7 @@ The only dependencies required are
 - `numpy` (`v1.20.1` or similar)
 - `tqdm`
 
-**NOTE:** Many of the models use external datasets, some of which have not been pushed to this repository due to the sheer
+**NOTE #1:** Many of the models use external datasets, some of which have not been pushed to this repository due to the sheer
 amount of size. Cross-check `/[model_class]/[model]/dataset/` directory and see the `*.py` file for information about
 the dataset that needs to be used. 
 Alternatively, you can also use any relevant dataset of your choice, but it's upto you
@@ -58,5 +58,6 @@ Follow the steps to train the model:
 - Update `main.py` and/or `train.py` (necessary if using a different dataset)
 - Execute `main.py`:  `$ python3 main.py`
 
-**#TODO:** 
-- [ ] Add code for saving the models
+## Disclaimer
+Some of the implementations differ from the corresponding paper's mentioned configurations (especially the older papers) 
+by a small amount. Wherever such differences are present, it is mentioned in the comments. 
